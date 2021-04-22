@@ -5,6 +5,10 @@ import analogio
 
 from adafruit_hid.mouse import Mouse
 
+import board
+import busio
+import adafruit_ssd1306
+
 def range_map(x, in_min, in_max, out_min, out_max):
     if (((x - in_min) * (out_max - out_min) // (in_max - in_min) + out_min) < 10) and (((x - in_min) * (out_max - out_min) // (in_max - in_min) + out_min) > -10):
         return 0
@@ -55,6 +59,17 @@ class button():
         #Joy Stick
         self.ax = analogio.AnalogIn(board.GP27)
         self.ay = analogio.AnalogIn(board.GP26)
+        
+        #OLED Setup
+        self.i2c = busio.I2C(board.GP3, board.GP2)
+        self.display = adafruit_ssd1306.SSD1306_I2C(128, 32, self.i2c)
+
+        
+    def show_text(self, msg):
+        self.display.fill(0)
+        self.display.show()
+        self.display.text(msg,1,1,1)
+        self.display.show()
 
     def record(self, gp, kbd, m, mode=1):
         print("Running Infinite Loop")
@@ -65,6 +80,7 @@ class button():
                     gp.press_buttons(1)
                 elif mode==0:
                     kbd.send(89)
+                    time.sleep(0.5)
             else:
                 if mode==1:
                     gp.release_buttons(1)
@@ -75,6 +91,7 @@ class button():
                     gp.press_buttons(2)
                 elif mode==0:
                     kbd.send(90)
+                    time.sleep(0.5)
             else:
                 if mode==1:
                     gp.release_buttons(2)
@@ -85,6 +102,7 @@ class button():
                     gp.press_buttons(3)
                 elif mode==0:
                     kbd.send(91)
+                    time.sleep(0.5)
             else:
                 if mode==1:
                     gp.release_buttons(3)
@@ -95,6 +113,7 @@ class button():
                     gp.press_buttons(4)
                 elif mode==0:
                     kbd.send(92)
+                    time.sleep(0.5)
             else:
                 if mode==1:
                     gp.release_buttons(4)
@@ -105,6 +124,7 @@ class button():
                     gp.press_buttons(5)
                 elif mode==0:
                     kbd.send(93)
+                    time.sleep(0.5)
             else:
                 if mode==1:
                     gp.release_buttons(5)
@@ -115,6 +135,7 @@ class button():
                     gp.press_buttons(6)
                 elif mode==0:
                     kbd.send(94)
+                    time.sleep(0.5)
             else:
                 if mode==1:
                     gp.release_buttons(6)
@@ -125,6 +146,7 @@ class button():
                     gp.press_buttons(7)
                 elif mode==0:
                     kbd.send(95)
+                    time.sleep(0.5)
             else:
                 if mode==1:
                     gp.release_buttons(7)
@@ -135,6 +157,7 @@ class button():
                     gp.press_buttons(8)
                 elif mode==0:
                     kbd.send(96)
+                    time.sleep(0.5)
             else:
                 if mode==1:
                     gp.release_buttons(8)
@@ -145,6 +168,7 @@ class button():
                     gp.press_buttons(9)
                 elif mode==0:
                     kbd.send(97)
+                    time.sleep(0.5)
             else:
                 if mode==1:
                     gp.release_buttons(9)
@@ -155,6 +179,7 @@ class button():
                     gp.press_buttons(10)
                 elif mode==0:
                     kbd.send(4)
+                    time.sleep(0.5)
             else:
                 if mode==1:
                     gp.release_buttons(10)
@@ -165,6 +190,7 @@ class button():
                     gp.press_buttons(11)
                 elif mode==0:
                     kbd.send(5)
+                    time.sleep(0.5)
             else:
                 if mode==1:
                     gp.release_buttons(11)
@@ -175,6 +201,7 @@ class button():
                     gp.press_buttons(12)
                 elif mode==0:
                     kbd.send(6)
+                    time.sleep(0.5)
             else:
                 if mode==1:
                     gp.release_buttons(12)
@@ -185,6 +212,7 @@ class button():
                     gp.press_buttons(13)
                 elif mode==0:
                     kbd.send(7)
+                    time.sleep(0.5)
                 elif mode==2:
                     m.press(Mouse.LEFT_BUTTON)
             else:
@@ -199,6 +227,7 @@ class button():
                     gp.press_buttons(14)
                 elif mode==0:
                     kbd.send(8)
+                    time.sleep(0.5)
                 elif mode==2:
                     m.press(Mouse.RIGHT_BUTTON)                
             else:
@@ -211,12 +240,15 @@ class button():
             if not self.btn_mode.value:
                 if mode==0:
                     mode = 1
+                    self.show_text("Gamepad")
                 elif mode==1:
                     mode = 2
+                    self.show_text("Mouse")
                 elif mode==2:
                     mode = 0
+                    self.show_text("Keyboard")
                 print("Mode : "+str(mode))
-                time.sleep(1)
+                time.sleep(0.5)
             
             if not self.btn_dpad.value:
                 print("btn_dpad")
@@ -224,6 +256,7 @@ class button():
                     gp.press_buttons(15)
                 elif mode==0:
                     kbd.send(9)
+                    time.sleep(0.5)
             else:
                 if mode==1:
                     gp.release_buttons(15)

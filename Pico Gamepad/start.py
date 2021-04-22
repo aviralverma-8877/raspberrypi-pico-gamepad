@@ -13,4 +13,5 @@ m = Mouse(usb_hid.devices)
 
 gp.move_joysticks(0, 0, 0, 0)
 btn = button()
+btn.show_text("Welcome")
 btn.record(gp, kbd, m)
