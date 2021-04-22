@@ -1,0 +1,1 @@
+Adafruit CircuitPython 6.2.0 on 2021-04-05; Raspberry Pi Pico with rp2040
