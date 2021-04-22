@@ -7,8 +7,6 @@ from adafruit_hid.mouse import Mouse
 from adafruit_hid.consumer_control_code import ConsumerControlCode
 
 import board
-import busio
-import adafruit_ssd1306
 
 def range_map(x, in_min, in_max, out_min, out_max):
     if (((x - in_min) * (out_max - out_min) // (in_max - in_min) + out_min) < 10) and (((x - in_min) * (out_max - out_min) // (in_max - in_min) + out_min) > -10):
@@ -17,7 +15,7 @@ def range_map(x, in_min, in_max, out_min, out_max):
         return (x - in_min) * (out_max - out_min) // (in_max - in_min) + out_min
 
 class button():
-    def __init__(self):
+    def __init__(self, oled=False):
         #Direction
         self.btn_up = digitalio.DigitalInOut(board.GP5)
         self.btn_left = digitalio.DigitalInOut(board.GP4)
@@ -60,23 +58,27 @@ class button():
         #Joy Stick
         self.ax = analogio.AnalogIn(board.GP27)
         self.ay = analogio.AnalogIn(board.GP26)
-        
-        #OLED Setup
-        self.i2c = busio.I2C(board.GP3, board.GP2)
-        self.display = adafruit_ssd1306.SSD1306_I2C(128, 32, self.i2c)
+        self.oled = oled
+        if(self.oled):
+            import busio
+            import adafruit_ssd1306
+            #OLED Setup
+            self.i2c = busio.I2C(board.GP3, board.GP2)
+            self.display = adafruit_ssd1306.SSD1306_I2C(128, 64, self.i2c)
 
         
     def show_text(self, msg):
-        self.display.fill(0)
-        self.display.show()
-        self.display.text(msg,1,1,1)
-        self.display.show()
+        if(self.oled):
+            self.display.fill(0)
+            self.display.show()
+            self.display.text(msg,45,30,1)
+            self.display.show()
 
     def record(self, gp, consumer_control, m, mode=1):
-        print("Running Infinite Loop")
+        #print("Running Infinite Loop")
         while(True):
             if not self.btn_up.value:
-                print("btn_up")
+                #print("btn_up")
                 if mode==1:
                     gp.press_buttons(1)
                 elif mode==0:
@@ -87,7 +89,7 @@ class button():
                     gp.release_buttons(1)
                 
             if not self.btn_left.value:
-                print("btn_left")
+                #print("btn_left")
                 if mode==1:
                     gp.press_buttons(2)
                 elif mode==0:
@@ -98,7 +100,7 @@ class button():
                     gp.release_buttons(2)
 
             if not self.btn_right.value:
-                print("btn_right")
+                #print("btn_right")
                 if mode==1:
                     gp.press_buttons(3)
                 elif mode==0:
@@ -109,7 +111,7 @@ class button():
                     gp.release_buttons(3)
             
             if not self.btn_down.value:
-                print("btn_down")
+                #print("btn_down")
                 if mode==1:
                     gp.press_buttons(4)
                 elif mode==0:
@@ -120,7 +122,7 @@ class button():
                     gp.release_buttons(4)
             
             if not self.btn_x.value:
-                print("btn_x")
+                #print("btn_x")
                 if mode==1:
                     gp.press_buttons(5)
                 elif mode==0:
@@ -131,7 +133,7 @@ class button():
                     gp.release_buttons(5)
             
             if not self.btn_y.value:
-                print("btn_y")
+                #print("btn_y")
                 if mode==1:
                     gp.press_buttons(6)
                 elif mode==0:
@@ -142,7 +144,7 @@ class button():
                     gp.release_buttons(6)
             
             if not self.btn_a.value:
-                print("btn_a")
+                #print("btn_a")
                 if mode==1:
                     gp.press_buttons(7)
                 elif mode==0:
@@ -153,7 +155,7 @@ class button():
                     gp.release_buttons(7)
             
             if not self.btn_b.value:
-                print("btn_b")
+                #print("btn_b")
                 if mode==1:
                     gp.press_buttons(8)
                 elif mode==0:
@@ -164,7 +166,7 @@ class button():
                     gp.release_buttons(8)
             
             if not self.btn_sholder_left_trigger.value:
-                print("btn_sholder_left_trigger")
+                #print("btn_sholder_left_trigger")
                 if mode==1:
                     gp.press_buttons(9)
                 elif mode==0:
@@ -175,7 +177,7 @@ class button():
                     gp.release_buttons(9)
             
             if not self.btn_sholder_left_fire.value:
-                print("btn_sholder_left_fire")
+                #print("btn_sholder_left_fire")
                 if mode==1:
                     gp.press_buttons(10)
             else:
@@ -183,7 +185,7 @@ class button():
                     gp.release_buttons(10)
             
             if not self.btn_sholder_right_trigger.value:
-                print("btn_sholder_right_trigger")
+                #print("btn_sholder_right_trigger")
                 if mode==1:
                     gp.press_buttons(11)
             else:
@@ -191,7 +193,7 @@ class button():
                     gp.release_buttons(11)
             
             if not self.btn_sholder_right_fire.value:
-                print("btn_sholder_right_fire")
+                #print("btn_sholder_right_fire")
                 if mode==1:
                     gp.press_buttons(12)
             else:
@@ -199,7 +201,7 @@ class button():
                     gp.release_buttons(12)
             
             if not self.btn_start.value:
-                print("btn_start")
+                #print("btn_start")
                 if mode==1:
                     gp.press_buttons(13)
                 elif mode==0:
@@ -214,7 +216,7 @@ class button():
                     m.release(Mouse.LEFT_BUTTON)
                     
             if not self.btn_select.value:
-                print("btn_select")
+                #print("btn_select")
                 if mode==1:
                     gp.press_buttons(14)
                 elif mode==2:
@@ -236,11 +238,11 @@ class button():
                 elif mode==2:
                     mode = 0
                     self.show_text("Media")
-                print("Mode : "+str(mode))
+                #print("Mode : "+str(mode))
                 time.sleep(0.5)
             
             if not self.btn_dpad.value:
-                print("btn_dpad")
+                #print("btn_dpad")
                 if mode==1:
                     gp.press_buttons(15)
             else:

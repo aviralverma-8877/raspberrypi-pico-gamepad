@@ -13,6 +13,6 @@ m = Mouse(usb_hid.devices)
 cc = ConsumerControl(usb_hid.devices)
 
 gp.move_joysticks(0, 0, 0, 0)
-btn = button()
+btn = button(oled=True)
 btn.show_text("Welcome")
 btn.record(gp, cc, m)
