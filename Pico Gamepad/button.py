@@ -4,6 +4,7 @@ import time
 import analogio
 
 from adafruit_hid.mouse import Mouse
+from adafruit_hid.consumer_control_code import ConsumerControlCode
 
 import board
 import busio
@@ -71,7 +72,7 @@ class button():
         self.display.text(msg,1,1,1)
         self.display.show()
 
-    def record(self, gp, kbd, m, mode=1):
+    def record(self, gp, consumer_control, m, mode=1):
         print("Running Infinite Loop")
         while(True):
             if not self.btn_up.value:
@@ -79,7 +80,7 @@ class button():
                 if mode==1:
                     gp.press_buttons(1)
                 elif mode==0:
-                    kbd.send(89)
+                    consumer_control.send(ConsumerControlCode.VOLUME_INCREMENT)
                     time.sleep(0.5)
             else:
                 if mode==1:
@@ -90,7 +91,7 @@ class button():
                 if mode==1:
                     gp.press_buttons(2)
                 elif mode==0:
-                    kbd.send(90)
+                    consumer_control.send(ConsumerControlCode.SCAN_NEXT_TRACK)
                     time.sleep(0.5)
             else:
                 if mode==1:
@@ -101,7 +102,7 @@ class button():
                 if mode==1:
                     gp.press_buttons(3)
                 elif mode==0:
-                    kbd.send(91)
+                    consumer_control.send(ConsumerControlCode.SCAN_PREVIOUS_TRACK)
                     time.sleep(0.5)
             else:
                 if mode==1:
@@ -112,7 +113,7 @@ class button():
                 if mode==1:
                     gp.press_buttons(4)
                 elif mode==0:
-                    kbd.send(92)
+                    consumer_control.send(ConsumerControlCode.VOLUME_DECREMENT)
                     time.sleep(0.5)
             else:
                 if mode==1:
@@ -123,7 +124,7 @@ class button():
                 if mode==1:
                     gp.press_buttons(5)
                 elif mode==0:
-                    kbd.send(93)
+                    consumer_control.send(ConsumerControlCode.PLAY_PAUSE)
                     time.sleep(0.5)
             else:
                 if mode==1:
@@ -134,7 +135,7 @@ class button():
                 if mode==1:
                     gp.press_buttons(6)
                 elif mode==0:
-                    kbd.send(94)
+                    consumer_control.send(ConsumerControlCode.STOP)
                     time.sleep(0.5)
             else:
                 if mode==1:
@@ -145,7 +146,7 @@ class button():
                 if mode==1:
                     gp.press_buttons(7)
                 elif mode==0:
-                    kbd.send(95)
+                    consumer_control.send(ConsumerControlCode.REWIND)
                     time.sleep(0.5)
             else:
                 if mode==1:
@@ -156,7 +157,7 @@ class button():
                 if mode==1:
                     gp.press_buttons(8)
                 elif mode==0:
-                    kbd.send(96)
+                    consumer_control.send(ConsumerControlCode.RECORD)
                     time.sleep(0.5)
             else:
                 if mode==1:
@@ -167,7 +168,7 @@ class button():
                 if mode==1:
                     gp.press_buttons(9)
                 elif mode==0:
-                    kbd.send(97)
+                    consumer_control.send(ConsumerControlCode.EJECT)
                     time.sleep(0.5)
             else:
                 if mode==1:
@@ -177,9 +178,6 @@ class button():
                 print("btn_sholder_left_fire")
                 if mode==1:
                     gp.press_buttons(10)
-                elif mode==0:
-                    kbd.send(4)
-                    time.sleep(0.5)
             else:
                 if mode==1:
                     gp.release_buttons(10)
@@ -188,9 +186,6 @@ class button():
                 print("btn_sholder_right_trigger")
                 if mode==1:
                     gp.press_buttons(11)
-                elif mode==0:
-                    kbd.send(5)
-                    time.sleep(0.5)
             else:
                 if mode==1:
                     gp.release_buttons(11)
@@ -199,9 +194,6 @@ class button():
                 print("btn_sholder_right_fire")
                 if mode==1:
                     gp.press_buttons(12)
-                elif mode==0:
-                    kbd.send(6)
-                    time.sleep(0.5)
             else:
                 if mode==1:
                     gp.release_buttons(12)
@@ -211,7 +203,7 @@ class button():
                 if mode==1:
                     gp.press_buttons(13)
                 elif mode==0:
-                    kbd.send(7)
+                    consumer_control.send(ConsumerControlCode.MUTE)
                     time.sleep(0.5)
                 elif mode==2:
                     m.press(Mouse.LEFT_BUTTON)
@@ -225,9 +217,6 @@ class button():
                 print("btn_select")
                 if mode==1:
                     gp.press_buttons(14)
-                elif mode==0:
-                    kbd.send(8)
-                    time.sleep(0.5)
                 elif mode==2:
                     m.press(Mouse.RIGHT_BUTTON)                
             else:
@@ -246,7 +235,7 @@ class button():
                     self.show_text("Mouse")
                 elif mode==2:
                     mode = 0
-                    self.show_text("Keyboard")
+                    self.show_text("Media")
                 print("Mode : "+str(mode))
                 time.sleep(0.5)
             
@@ -254,9 +243,6 @@ class button():
                 print("btn_dpad")
                 if mode==1:
                     gp.press_buttons(15)
-                elif mode==0:
-                    kbd.send(9)
-                    time.sleep(0.5)
             else:
                 if mode==1:
                     gp.release_buttons(15)
