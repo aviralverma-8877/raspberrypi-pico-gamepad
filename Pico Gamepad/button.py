@@ -67,11 +67,12 @@ class button():
             self.display = adafruit_ssd1306.SSD1306_I2C(128, 64, self.i2c)
 
         
-    def show_text(self, msg):
+    def show_text(self, msg, x=45, y=30):
         if(self.oled):
             self.display.fill(0)
             self.display.show()
-            self.display.text(msg,45,30,1)
+            self.display.text("IoT Connect",35,10,1)
+            self.display.text(msg,x,y,1)
             self.display.show()
 
     def record(self, gp, consumer_control, m, mode=1):

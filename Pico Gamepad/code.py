@@ -14,5 +14,5 @@ cc = ConsumerControl(usb_hid.devices)
 
 gp.move_joysticks(0, 0, 0, 0)
 btn = button(oled=True)
-btn.show_text("IoT Connect")
+btn.show_text("Welcome")
 btn.record(gp, cc, m)
