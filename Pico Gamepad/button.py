@@ -84,7 +84,7 @@ class button():
                     gp.press_buttons(1)
                 elif mode==0:
                     consumer_control.send(ConsumerControlCode.VOLUME_INCREMENT)
-                    time.sleep(0.5)
+                    time.sleep(0.05)
             else:
                 if mode==1:
                     gp.release_buttons(1)
@@ -117,7 +117,7 @@ class button():
                     gp.press_buttons(4)
                 elif mode==0:
                     consumer_control.send(ConsumerControlCode.VOLUME_DECREMENT)
-                    time.sleep(0.5)
+                    time.sleep(0.05)
             else:
                 if mode==1:
                     gp.release_buttons(4)
